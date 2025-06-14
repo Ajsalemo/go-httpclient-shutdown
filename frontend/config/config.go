@@ -2,24 +2,22 @@ package config
 
 import (
 	"os"
-
-	"go.uber.org/zap"
 )
 
 type Config struct {
 	BackendURL string
 }
 
-func SetBackendURL() string {
+func GetBackendURL() string {
 	var config Config
-	backendURL := os.Getenv("BACKEND_URL")
-	if backendURL == "" {
-		zap.L().Error("BACKEND_URL environment variable is not set. Using localhost address for backend target")
-		backendURL = "http://localhost:3000"
+	url := os.Getenv("BACKEND_URL")
+	// If BACKEND_URL is not set, default to localhost address
+	if url == "" {
+		config.BackendURL = "http://localhost:3000"
+		return config.BackendURL
 	} else {
-		zap.L().Info("BACKEND_URL is set. Using BACKEND_URL from environment variable", zap.String("backendURL", backendURL))
+		config.BackendURL = url
+		return config.BackendURL
 	}
-
-	config.BackendURL = backendURL
-	return config.BackendURL
 }
+

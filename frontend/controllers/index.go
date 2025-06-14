@@ -13,8 +13,7 @@ type Response struct {
 }
 
 func Index(cxt *fiber.Ctx) error {
-	var config config.Config
-	backendURL := config.BackendURL
+	backendURL := config.GetBackendURL()
 	zap.L().Info("Making a request to backend", zap.String("backendURL", backendURL))
 	request := fiber.Get(backendURL)
 	_, data, err := request.Bytes()

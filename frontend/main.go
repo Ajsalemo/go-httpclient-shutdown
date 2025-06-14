@@ -17,8 +17,6 @@ func init() {
 }
 
 func main() {
-	// Set the backend URL
-	config.SetBackendURL()
 	app := fiber.New()
 
 	app.Get("/", controllers.Index)
