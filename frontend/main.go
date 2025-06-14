@@ -54,7 +54,7 @@ func initiateShutdownCountdown() {
 			if elapsed > duration {
 				zap.L().Info("Elapsed time: " + elapsed.String())
 				zap.L().Warn("SHUTDOWN_TIME_LIMIT was reached, exiting application..")
-				return
+				os.Exit(0)
 			}
 
 			makeRequestsOnShutdown()
@@ -79,11 +79,9 @@ func main() {
 		case os.Interrupt:
 			zap.L().Warn("CTRL+C / os.Interrupt recieved, shutting down the application..")
 			initiateShutdownCountdown()
-			app.Shutdown()
 		case syscall.SIGTERM:
 			zap.L().Warn("SIGTERM recieved.., shutting down the application..")
 			initiateShutdownCountdown()
-			app.Shutdown()
 		case syscall.SIGQUIT:
 			zap.L().Warn("SIGQUIT recieved.., shutting down the application..")
 			initiateShutdownCountdown()
@@ -91,7 +89,6 @@ func main() {
 		case syscall.SIGINT:
 			zap.L().Warn("SIGINT recieved.., shutting down the application..")
 			initiateShutdownCountdown()
-			app.Shutdown()
 		}
 	}()
 
